@@ -17,19 +17,44 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("(5) Exit");
         }
 
+        public static bool CheckUltimateQuestion(string? UltimateQuestion)
+        {
+            return UltimateQuestion != null && UltimateQuestion.Length <= 200;
+        }
+        public static bool CheckAlgorithmKey (string? AlgorithmKey)
+        {
+            return AlgorithmKey != null && (AlgorithmKey.Equals("Trivial") || AlgorithmKey.Equals("SlowCount") ||
+            AlgorithmKey.Equals("RandomGuess"));
+        }
         public static void InvalidOption()
         {
             Console.WriteLine("The value is not valid. Please try again.");
         }
 
+
         public static void DoOption1()
         {
+
+            // Checking the values are correct might move to separate methods to be SOLID.
             Console.WriteLine("Please submit your Ultimate Questions for which we definitely have an answer.");
             string? UltimateQuestion = Console.ReadLine();
-            // need to see if it's ok
+
+            if (!CheckUltimateQuestion(UltimateQuestion))
+            {
+                Console.WriteLine("Unfortunately, questions is not suitable. Try shorter.. or maybe something at all.");
+                return;
+            }
+
             Console.WriteLine("Which algorithm should Deep Thought use?");
-            string? Algorithm = Console.ReadLine();
-            // create job
+            string? AlgorithmKey = Console.ReadLine();
+            if (!CheckAlgorithmKey(AlgorithmKey))
+            {
+                Console.WriteLine("Unfortunately, that algorithm is not currently supported by Deep Thought. Try one of the provided options.");
+                return;
+            }
+
+            // now do the job
+            
         }
         public static void DoOption2()
         {
@@ -54,6 +79,7 @@ namespace DeepThought.src.DeepThought.Util
          public static void DoOption5()
         {
             Console.WriteLine("Thank you for using Deep Thought. 42 ms until termination.");
+            //TODO: maybe implement a timer
         }
     }
 }
