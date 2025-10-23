@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeepThought.src.DeepThought.Domain
 {
-    public class Job(string JobId, string QuestionText, string AlgorithmKey, string Status, string Progress)
+    public class Job(string JobId, string QuestionText, string AlgorithmKey, string Status="Pending", string Progress = "0%")
     {
         public string JobId { get; set; }
         public string QuestionText { get; set; }

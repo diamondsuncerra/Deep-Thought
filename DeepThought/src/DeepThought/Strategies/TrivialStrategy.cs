@@ -8,7 +8,7 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public class TrivialStrategy : IAnswerStrategy
     {
-        public string AnswerQuestion(string QuestionText)
+        public string AnswerQuestion()
         {
             return "42";
         }

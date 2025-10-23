@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeepThought.src.DeepThought.Domain;
+using DeepThought.src.DeepThought.Services;
 
 namespace DeepThought.src.DeepThought.Util
 {
     public class ConsoleHelpers
     {
+        private static int _jobs = 0;
         public static void MenuPrompt()
         {
             Console.WriteLine("Please select an option:");
@@ -17,11 +20,11 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("(5) Exit");
         }
 
-        public static bool CheckUltimateQuestion(string? UltimateQuestion)
+        public static bool CheckUltimateQuestion(string UltimateQuestion)
         {
             return UltimateQuestion != null && UltimateQuestion.Length <= 200;
         }
-        public static bool CheckAlgorithmKey (string? AlgorithmKey)
+        public static bool CheckAlgorithmKey (string AlgorithmKey)
         {
             return AlgorithmKey != null && (AlgorithmKey.Equals("Trivial") || AlgorithmKey.Equals("SlowCount") ||
             AlgorithmKey.Equals("RandomGuess"));
@@ -37,7 +40,7 @@ namespace DeepThought.src.DeepThought.Util
 
             // Checking the values are correct might move to separate methods to be SOLID.
             Console.WriteLine("Please submit your Ultimate Questions for which we definitely have an answer.");
-            string? UltimateQuestion = Console.ReadLine();
+            string UltimateQuestion = Console.ReadLine();
 
             if (!CheckUltimateQuestion(UltimateQuestion))
             {
@@ -46,7 +49,7 @@ namespace DeepThought.src.DeepThought.Util
             }
 
             Console.WriteLine("Which algorithm should Deep Thought use?");
-            string? AlgorithmKey = Console.ReadLine();
+            string AlgorithmKey = Console.ReadLine();
             if (!CheckAlgorithmKey(AlgorithmKey))
             {
                 Console.WriteLine("Unfortunately, that algorithm is not currently supported by Deep Thought. Try one of the provided options.");
@@ -54,7 +57,8 @@ namespace DeepThought.src.DeepThought.Util
             }
 
             // now do the job
-            
+            Job job = new("J" + _jobs, UltimateQuestion, AlgorithmKey);
+            JobRunner.RunJob(job);
         }
         public static void DoOption2()
         {

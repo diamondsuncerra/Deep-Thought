@@ -9,7 +9,7 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public class RandomGuessStrategy
     {   
-        public string AnswerQuestion(string QuestionText)
+        public string AnswerQuestion()
         {
             Console.Write("Hmm.. Let me think..");
             Thread.Sleep(1000);

@@ -8,6 +8,6 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public interface IAnswerStrategy
     {
-        public string AnswerQuestion(string QuestionText);
+        public string AnswerQuestion();
     }
 }

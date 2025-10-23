@@ -8,9 +8,9 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public class SlowCountStrategy
     {
-        public string AnswerQuestion(string QuestionText)
+        public string AnswerQuestion()
         {
-            for (int i = 0; i <= 15; i++)
+            for (int i = 0; i <= 100; i++)
             {
                 Thread.Sleep(100);
                 Console.WriteLine("Generating Ultimate Answer...");
