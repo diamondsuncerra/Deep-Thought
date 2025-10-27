@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace DeepThought.src.DeepThought.Domain
 {
-    public class JobResult
+    public class JobResult(string Answer, string Summary, long DurationMs)
     {
         // for printing job result
-        public string JobId { get; set; }
         public string Answer { get; set; }
         public string Summary { get; set; }
-        public string DurationMs { get; set; }
+        public long DurationMs { get; set; }
     }
 }

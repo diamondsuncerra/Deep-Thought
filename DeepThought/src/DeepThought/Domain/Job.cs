@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Formats.Asn1;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,11 +18,15 @@ namespace DeepThought.src.DeepThought.Domain
         private IAnswerStrategy _strategy;
         public string Answer { get; set; } = string.Empty;
 
-        public Job(string JobId, string QuestionText, string AlgorithmKey, string Status="Pending", int Progress = 0) 
+        public JobResult Result {get; set;}
+
+        public DateTime? CreatedUtc { get; set; }
+        public Job(string JobId, string QuestionText, string AlgorithmKey, string Status = "Pending", int Progress = 0)
         {
             this.JobId = JobId;
             this.QuestionText = QuestionText;
             this.AlgorithmKey = AlgorithmKey;
+            CreatedUtc = DateTime.UtcNow;
             if (AlgorithmKey.Equals("Trivial"))
                 _strategy = new TrivialStrategy();
             if (AlgorithmKey.Equals("SlowCount"))
@@ -33,7 +38,11 @@ namespace DeepThought.src.DeepThought.Domain
 
         public async Task<string> DoJob(CancellationToken token, IProgress<int>? progress)
         {
+            Stopwatch stopwatch = new Stopwatch(); // for duration
+            stopwatch.Start();
             Answer = await _strategy.AnswerQuestion(token, progress = null);
+            stopwatch.Stop();
+            Result = new JobResult(Answer, "To be Implemented", stopwatch.ElapsedMilliseconds); ;
             return Answer;
         }
     }

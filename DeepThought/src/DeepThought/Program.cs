@@ -4,6 +4,7 @@ namespace DeepThought
 {
     public class Program
     {
+        // it should load existing jobs from deepthought-jobs.json
         public static async Task Main(string []args)
         {
             int option = 0;

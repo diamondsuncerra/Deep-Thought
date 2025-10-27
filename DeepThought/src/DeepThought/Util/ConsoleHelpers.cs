@@ -57,8 +57,7 @@ namespace DeepThought.src.DeepThought.Util
                 return;
             }
 
-            int JobId = _jobs;
-            _jobs++;
+            Guid JobId = Guid.NewGuid();
             Console.WriteLine("Job queued: J" + JobId);
 
             // now do the job
@@ -98,7 +97,7 @@ namespace DeepThought.src.DeepThought.Util
          public static void DoOption5()
         {
             Console.WriteLine("Thank you for using Deep Thought. 42 ms until termination.");
-            //TODO: maybe implement a timer
+            Thread.Sleep(42);
         }
     }
 }
