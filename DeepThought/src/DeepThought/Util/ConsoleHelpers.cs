@@ -50,6 +50,7 @@ namespace DeepThought.src.DeepThought.Util
             }
 
             Console.WriteLine("Which algorithm should Deep Thought use?");
+            Console.WriteLine("Trivial | RandomGuess | SlowCount");
             string AlgorithmKey = Console.ReadLine();
             if (!CheckAlgorithmKey(AlgorithmKey))
             {
@@ -61,7 +62,7 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("Job queued: " + JobId);
 
             // now do the job
-            Job Job = new(JobId.ToString(), QuestionText, AlgorithmKey);
+            Job Job = new(JobId.ToString(), QuestionText, AlgorithmKey,"Pending", 0);
             JobStore.UpdateJobsToDisk(Job); // job created 
 
             using var cts = new CancellationTokenSource();
@@ -79,8 +80,7 @@ namespace DeepThought.src.DeepThought.Util
         
         public static void DoOption2()
         {
-            Console.WriteLine("Printing jobs..");
-
+            JobStore.PrintAllJobs();
         }
         public static void DoOption3()
         {

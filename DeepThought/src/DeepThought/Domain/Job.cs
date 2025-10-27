@@ -21,11 +21,13 @@ namespace DeepThought.src.DeepThought.Domain
         public JobResult Result {get; set;}
 
         public DateTime? CreatedUtc { get; set; }
-        public Job(string JobId, string QuestionText, string AlgorithmKey, string Status = "Pending", int Progress = 0)
+        public Job(string JobId, string QuestionText, string AlgorithmKey, string Status, int Progress)
         {
             this.JobId = JobId;
             this.QuestionText = QuestionText;
             this.AlgorithmKey = AlgorithmKey;
+            this.Status = Status;
+            this.Progress = Progress; 
             CreatedUtc = DateTime.UtcNow;
             if (AlgorithmKey.Equals("Trivial"))
                 _strategy = new TrivialStrategy();
@@ -47,6 +49,10 @@ namespace DeepThought.src.DeepThought.Domain
             return Answer;
         }
 
+        public override string ToString()
+        {
+            return $"{JobId} | {Status} | {AlgorithmKey} | {CreatedUtc:u} | {Progress}%";
+        }
     
     }
 }

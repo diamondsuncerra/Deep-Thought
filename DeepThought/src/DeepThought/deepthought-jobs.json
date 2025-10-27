@@ -1,7 +1,7 @@
 {
-  "17dd79b1-95a0-40fd-b989-8aa3ca6732e6": {
-    "JobId": "17dd79b1-95a0-40fd-b989-8aa3ca6732e6",
-    "QuestionText": "haha",
+  "ce60c57a-56f1-478c-b633-ae72250971ff": {
+    "JobId": "ce60c57a-56f1-478c-b633-ae72250971ff",
+    "QuestionText": "222",
     "AlgorithmKey": "Trivial",
     "Status": "Completed",
     "Progress": 100,
@@ -11,6 +11,34 @@
       "Summary": "To be Implemented",
       "DurationMs": 205
     },
-    "CreatedUtc": "2025-10-27T15:44:26.0420718Z"
+    "CreatedUtc": "2025-10-27T16:10:58.4780115Z"
+  },
+  "fe901b4e-61f7-4d65-96bb-58c641af7220": {
+    "JobId": "fe901b4e-61f7-4d65-96bb-58c641af7220",
+    "QuestionText": "ahahah",
+    "AlgorithmKey": "RandomGuess",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 1868
+    },
+    "CreatedUtc": "2025-10-27T16:17:42.2677148Z"
+  },
+  "258f25ec-618c-467a-bfae-c017b9d88c69": {
+    "JobId": "258f25ec-618c-467a-bfae-c017b9d88c69",
+    "QuestionText": "Wow",
+    "AlgorithmKey": "Trivial",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 205
+    },
+    "CreatedUtc": "2025-10-27T16:18:18.4439623Z"
   }
 }

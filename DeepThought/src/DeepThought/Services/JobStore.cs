@@ -17,7 +17,15 @@ namespace DeepThought.src.DeepThought.Services
 
         public static void Load()
         {
-            // load all current jobs to the runner TODO
+            string json = File.ReadAllText(_fileName);
+            var OldJobs = JsonConvert.DeserializeObject<Dictionary<string, Job>>(json);
+            if (OldJobs == null)
+            {
+                return; // optional make a log
+            }  else
+            {
+                Jobs = OldJobs;
+            }
         }
 
         public static void UpdateJobsToDisk(Job Job)
@@ -39,11 +47,23 @@ namespace DeepThought.src.DeepThought.Services
         {
             if (JobId == string.Empty)
                 return "Oh well, looks like we do not have that in store.";
-                
+
             string json = File.ReadAllText(_fileName);
-            Dictionary<string, Job> AllJobs = JsonConvert.DeserializeObject<Dictionary<string, Job>>(json);
+            Dictionary<string, Job>? AllJobs = JsonConvert.DeserializeObject<Dictionary<string, Job>>(json);
+            if(AllJobs == null)
+            {return "Oh well, looks like we do not have that in store.";
+            }
             Job CurrentJob = AllJobs[JobId];
             return CurrentJob.Result.ToString();
+            //could also get from dict but the file may have leftovers so this is quicker
+        }
+        
+        public static void PrintAllJobs()
+        {
+            foreach(var entry in Jobs)
+            {
+                Console.WriteLine(entry.Value.ToString());
+            }
         }
     }
 }

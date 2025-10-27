@@ -1,12 +1,16 @@
-﻿using DeepThought.src.DeepThought.Util;
+﻿using DeepThought.src.DeepThought.Services;
+using DeepThought.src.DeepThought.Util;
 
 namespace DeepThought
-{
+{ 
+
+    // When i print jobs that have been loaded status =null progress = 0
     public class Program
     {
         // it should load existing jobs from deepthought-jobs.json
         public static async Task Main(string []args)
         {
+            JobStore.Load();
             int option = 0;
             while (option != 5)
             {
