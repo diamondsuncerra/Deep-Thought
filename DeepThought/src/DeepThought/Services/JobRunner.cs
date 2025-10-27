@@ -24,7 +24,7 @@ namespace DeepThought.src.DeepThought.Services
                 string result = await Job.DoJob(cancelToken, progress); // this will be saved to json
                 Job.Status = "Completed";
                 Console.WriteLine("Completed, answer is: " + result);
-
+                Console.WriteLine("Job result is: " + Job.Result.ToString());
 
             } catch(Exception ex)
             {

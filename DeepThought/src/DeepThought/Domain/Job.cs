@@ -40,11 +40,13 @@ namespace DeepThought.src.DeepThought.Domain
         {
             Stopwatch stopwatch = new Stopwatch(); // for duration
             stopwatch.Start();
-            Answer = await _strategy.AnswerQuestion(token, progress = null);
+            Answer = await _strategy.AnswerQuestion(token, progress);
             stopwatch.Stop();
             Result = new JobResult(Answer, "To be Implemented", stopwatch.ElapsedMilliseconds);
             Console.WriteLine("Do we ever get here? " + Result.ToString());
             return Answer;
         }
+
+    
     }
 }
