@@ -6,13 +6,15 @@ using DeepThought.src.DeepThought.Domain;
 
 namespace DeepThought.src.DeepThought.Strategies
 {
-    public class SlowCountStrategy
+    public class SlowCountStrategy : IAnswerStrategy
     {
-        public string AnswerQuestion()
+        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress = null)
         {
             for (int i = 0; i <= 100; i++)
             {
-                Thread.Sleep(100);
+                token.ThrowIfCancellationRequested();
+                await Task.Delay(300, token);
+                progress?.Report(i);
                 Console.WriteLine("Generating Ultimate Answer...");
             }
 

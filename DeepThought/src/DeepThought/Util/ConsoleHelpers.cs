@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using DeepThought.src.DeepThought.Domain;
 using DeepThought.src.DeepThought.Services;
@@ -20,7 +21,7 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("(5) Exit");
         }
 
-        public static bool CheckUltimateQuestion(string UltimateQuestion)
+        public static bool CheckQuestionText(string UltimateQuestion)
         {
             return UltimateQuestion != null && UltimateQuestion.Length <= 200;
         }
@@ -35,14 +36,14 @@ namespace DeepThought.src.DeepThought.Util
         }
 
 
-        public static void DoOption1()
+        public static async Task DoOption1()
         {
 
             // Checking the values are correct might move to separate methods to be SOLID.
             Console.WriteLine("Please submit your Ultimate Questions for which we definitely have an answer.");
-            string UltimateQuestion = Console.ReadLine();
+            string QuestionText = Console.ReadLine();
 
-            if (!CheckUltimateQuestion(UltimateQuestion))
+            if (!CheckQuestionText(QuestionText))
             {
                 Console.WriteLine("Unfortunately, questions is not suitable. Try shorter.. or maybe something at all.");
                 return;
@@ -56,9 +57,23 @@ namespace DeepThought.src.DeepThought.Util
                 return;
             }
 
+            int JobId = _jobs;
+            _jobs++;
+            Console.WriteLine("Job queued: J" + JobId);
+
             // now do the job
-            Job job = new("J" + _jobs, UltimateQuestion, AlgorithmKey);
-            JobRunner.RunJob(job);
+            Job job = new("J" + JobId, QuestionText, AlgorithmKey);
+            using var cts = new CancellationTokenSource();
+                  // Wire Ctrl+C to cancel
+            Console.CancelKeyPress += (sender, e) =>
+            {
+                Console.WriteLine("\nCtrl+C detected — cancelling the job...");
+                e.Cancel = true; // prevent app from closing
+                cts.Cancel();
+            };
+
+
+            await JobRunner.RunJob(job, cts.Token);
         }
         public static void DoOption2()
         {

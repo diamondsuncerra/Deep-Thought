@@ -8,8 +8,13 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public class TrivialStrategy : IAnswerStrategy
     {
-        public string AnswerQuestion()
+        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress = null)
         {
+            // If it should be cancellable
+            await Task.Delay(200, token);
+            token.ThrowIfCancellationRequested();
+
+            progress?.Report(100);
             return "42";
         }
     }

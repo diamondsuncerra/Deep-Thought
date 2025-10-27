@@ -4,7 +4,7 @@ namespace DeepThought
 {
     public class Program
     {
-        public static void Main(string []args)
+        public static async Task Main(string []args)
         {
             int option = 0;
             while (option != 5)
@@ -16,7 +16,7 @@ namespace DeepThought
                     // do job based on what it is
                     switch (option)
                     {
-                        case 1: ConsoleHelpers.DoOption1(); break;
+                        case 1: await ConsoleHelpers.DoOption1(); break;
                         case 2: ConsoleHelpers.DoOption2(); break;
                         case 3: ConsoleHelpers.DoOption3(); break;
                         case 4: ConsoleHelpers.DoOption4(); break;

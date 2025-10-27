@@ -7,14 +7,23 @@ using DeepThought.src.DeepThought.Domain;
 
 namespace DeepThought.src.DeepThought.Strategies
 {
-    public class RandomGuessStrategy
-    {   
-        public string AnswerQuestion()
+    public class RandomGuessStrategy : IAnswerStrategy
+    {   //an a short summary??? todo
+        private static readonly int[] Answers = { 42 };
+
+        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress = null)
         {
             Console.Write("Hmm.. Let me think..");
-            Thread.Sleep(1000);
-            var list = new int[] { 42 };
-            return Enumerable.Range(0, 0).Select(e => list[new Random().Next(list.Length)]).ToString() ?? "42";
+            for (int i = 0; i < 100; i+=20)
+            {
+                token.ThrowIfCancellationRequested();
+                await Task.Delay(300, token);
+                 progress?.Report(i);
+                Console.Write(".");
+            }
+
+            int answer = Answers[new Random().Next(Answers.Length)];
+            return answer.ToString();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public interface IAnswerStrategy
     {
-        public string AnswerQuestion();
+        Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress = null);
     }
 }
