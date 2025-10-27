@@ -57,23 +57,26 @@ namespace DeepThought.src.DeepThought.Util
                 return;
             }
 
-            Guid JobId = Guid.NewGuid();
-            Console.WriteLine("Job queued: J" + JobId);
+            Guid JobId = Guid.NewGuid(); // needed Guid not id be more careful
+            Console.WriteLine("Job queued: " + JobId);
 
             // now do the job
-            Job job = new("J" + JobId, QuestionText, AlgorithmKey);
+            Job Job = new(JobId.ToString(), QuestionText, AlgorithmKey);
+            JobStore.UpdateJobsToDisk(Job); // job created 
+
             using var cts = new CancellationTokenSource();
-                  // Wire Ctrl+C to cancel
+
             Console.CancelKeyPress += (sender, e) =>
             {
                 Console.WriteLine("\nCtrl+C detected — cancelling the job...");
-                e.Cancel = true; // prevent app from closing
+                e.Cancel = true;
                 cts.Cancel();
             };
 
 
-            await JobRunner.RunJob(job, cts.Token);
+            await JobRunner.RunJob(Job, cts.Token);
         }
+        
         public static void DoOption2()
         {
             Console.WriteLine("Printing jobs..");

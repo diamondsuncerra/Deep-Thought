@@ -9,29 +9,33 @@ namespace DeepThought.src.DeepThought.Services
 {
     public class JobRunner
     {
-        public static async Task RunJob(Job job, CancellationToken cancelToken)
+        public static async Task RunJob(Job Job, CancellationToken cancelToken)
         {
 
             var progress = new Progress<int>(p =>
             {
-                job.Progress = p;
+                Job.Progress = p;
                 Console.WriteLine($"Progress: {p}%"); // this will be later saved to json
             });
 
             try
             {
-                job.Status = "Running"; // maybe pending
-                string result = await job.DoJob(cancelToken, progress); // this will be saved to json
-                job.Status = "Completed";
+                Job.Status = "Running"; // maybe pending
+                string result = await Job.DoJob(cancelToken, progress); // this will be saved to json
+                Job.Status = "Completed";
                 Console.WriteLine("Completed, answer is: " + result);
+
 
             } catch(Exception ex)
             {
-                job.Status = "Cancelled";
+                Job.Status = "Canceled";
                 Console.WriteLine("Job was CANCELED!");
                 return;
             }
-           
+            finally
+            {
+                JobStore.UpdateJobsToDisk(Job);
+            }
 
         }
 

@@ -10,50 +10,27 @@ namespace DeepThought.src.DeepThought.Services
 {
     public class JobStore
     {
-        // most likely doesnt work.
-        private static string _fileName = "DeepThought\\src\\DeepThought\\deepthought-jobs.json";
-        private static List<Job> _jobs = [];
+        // do something about this
+        private static string _fileName = "C:\\Endava\\EndevLocal\\Deep Thought\\DeepThought\\src\\DeepThought\\deepthought-jobs.json";
+        // The problem was that List was just puttin them all in order
+        public static Dictionary<string,Job> Jobs { get; private set; } = new (StringComparer.OrdinalIgnoreCase);
 
         public static void Load()
         {
-            // load all current jobs to the runner
-        }
-        public static void SaveJobToDisk(Job Job)
-        {
-            _jobs.Add(Job);
-            string JsonString = JsonConvert.SerializeObject(Job, Formatting.Indented);
-            File.WriteAllText(_fileName, JsonString);
+            // load all current jobs to the runner TODO
         }
 
-        public static void UpdateJob(Job job)
+        public static void UpdateJobsToDisk(Job Job)
         {
-            
-        }
-        public static void UpdateCompletedJobToDisk(Job Job)
-        {
-            dynamic JsonObject = GetJsonStringFromFile();
-            JsonObject[Job.JobId]["Status"] = "Completed";
-            JsonObject[Job.JobId]["Progress"] = "100%";
-            JsonObject[Job.JobId]["Result"] = JsonConvert.SerializeObject(Job.Result, Formatting.Indented);
-            SaveJsonObjToDisk(JsonObject);
+            Jobs[Job.JobId] = Job;
+            Jobs[Job.JobId].Result = Job.Result;
+            SaveJobsToDisk();
         }
 
-        public static void UpdateCancelledJobToDisk(Job Job)
-        {
-            dynamic JsonObject = GetJsonStringFromFile();
-            JsonObject[Job.JobId]["Status"] = "Canceled";
-            JsonObject[Job.JobId]["Progress"] = "<100%";
-            SaveJsonObjToDisk(JsonObject);
-        }
+        public static void SaveJobsToDisk()
+        {   if (Jobs.Count == 0) return;
 
-        private static dynamic GetJsonStringFromFile()
-        {
-            string json = File.ReadAllText(_fileName);
-            return JsonConvert.DeserializeObject(json);
-        }
-        public static void SaveJsonObjToDisk(dynamic JsonObject)
-        {
-            string output = Newtonsoft.Json.JsonConvert.SerializeObject(JsonObject, Newtonsoft.Json.Formatting.Indented);
+            string output = JsonConvert.SerializeObject(Jobs, Formatting.Indented);
             File.WriteAllText(_fileName, output);
         }
 
