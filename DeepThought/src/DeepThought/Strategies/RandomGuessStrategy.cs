@@ -11,10 +11,10 @@ namespace DeepThought.src.DeepThought.Strategies
     {   //an a short summary??? todo
         private static readonly int[] Answers = { 42 };
 
-        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress = null)
+        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress)
         {
             Console.Write("Hmm.. Let me think..");
-            for (int i = 0; i < 100; i+=20)
+            for (int i = 0; i <= 100; i+=20)
             {
                 token.ThrowIfCancellationRequested();
                 await Task.Delay(300, token);

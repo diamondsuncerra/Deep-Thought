@@ -86,11 +86,10 @@ namespace DeepThought.src.DeepThought.Util
         {
             Console.WriteLine("Please submit the JobId.");
             string? JobIdString = Console.ReadLine();
-            if (int.TryParse(JobIdString, out int JobId))
-            {
-                Console.WriteLine("Printing Job Result..");
-            } else return;
-            
+            if (JobIdString != null)
+            { 
+                Console.WriteLine(JobStore.GetResultByJobId(JobIdString));
+            }
         }
         public static void DoOption4()
         {

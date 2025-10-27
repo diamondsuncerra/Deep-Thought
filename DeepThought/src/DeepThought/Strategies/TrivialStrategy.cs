@@ -8,7 +8,7 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public class TrivialStrategy : IAnswerStrategy
     {
-        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress = null)
+        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress)
         {
             // If it should be cancellable
             await Task.Delay(200, token);

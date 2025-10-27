@@ -1,40 +1,16 @@
 {
-  "3ada6e62-0eea-4209-907f-5a6e436a8102": {
-    "JobId": "3ada6e62-0eea-4209-907f-5a6e436a8102",
-    "QuestionText": "hahahahah",
-    "AlgorithmKey": "RandomGuess",
+  "17dd79b1-95a0-40fd-b989-8aa3ca6732e6": {
+    "JobId": "17dd79b1-95a0-40fd-b989-8aa3ca6732e6",
+    "QuestionText": "haha",
+    "AlgorithmKey": "Trivial",
     "Status": "Completed",
-    "Progress": 80,
+    "Progress": 100,
     "Answer": "42",
     "Result": {
       "Answer": "42",
       "Summary": "To be Implemented",
-      "DurationMs": 1547
+      "DurationMs": 205
     },
-    "CreatedUtc": "2025-10-27T15:22:46.6335701Z"
-  },
-  "4c1b4635-58a6-4f16-9beb-d29b2d27fd25": {
-    "JobId": "4c1b4635-58a6-4f16-9beb-d29b2d27fd25",
-    "QuestionText": "Is Simona a great person?",
-    "AlgorithmKey": "RandomGuess",
-    "Status": "Completed",
-    "Progress": 80,
-    "Answer": "42",
-    "Result": {
-      "Answer": "42",
-      "Summary": "To be Implemented",
-      "DurationMs": 1533
-    },
-    "CreatedUtc": "2025-10-27T15:25:01.4097631Z"
-  },
-  "5c6cdd28-962e-40a2-88f2-b421806ee5e0": {
-    "JobId": "5c6cdd28-962e-40a2-88f2-b421806ee5e0",
-    "QuestionText": "hahaha",
-    "AlgorithmKey": "SlowCount",
-    "Status": null,
-    "Progress": 0,
-    "Answer": "",
-    "Result": null,
-    "CreatedUtc": "2025-10-27T15:25:27.2037482Z"
+    "CreatedUtc": "2025-10-27T15:44:26.0420718Z"
   }
 }

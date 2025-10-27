@@ -8,7 +8,7 @@ namespace DeepThought.src.DeepThought.Strategies
 {
     public class SlowCountStrategy : IAnswerStrategy
     {
-        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress = null)
+        public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress)
         {
             for (int i = 0; i <= 100; i++)
             {

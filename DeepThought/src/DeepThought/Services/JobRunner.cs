@@ -26,12 +26,14 @@ namespace DeepThought.src.DeepThought.Services
                 Console.WriteLine("Completed, answer is: " + result);
                 Console.WriteLine("Job result is: " + Job.Result.ToString());
 
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Job.Status = "Canceled";
                 Console.WriteLine("Job was CANCELED!");
-                return;
+                return; // what if the ^c is done twice or three times. also for option 4
             }
+
             finally
             {
                 JobStore.UpdateJobsToDisk(Job);

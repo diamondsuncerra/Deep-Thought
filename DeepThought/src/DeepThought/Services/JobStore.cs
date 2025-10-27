@@ -13,7 +13,7 @@ namespace DeepThought.src.DeepThought.Services
         // do something about this
         private static string _fileName = "C:\\Endava\\EndevLocal\\Deep Thought\\DeepThought\\src\\DeepThought\\deepthought-jobs.json";
         // The problem was that List was just puttin them all in order
-        public static Dictionary<string,Job> Jobs { get; private set; } = new (StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, Job> Jobs { get; private set; } = new(StringComparer.OrdinalIgnoreCase);
 
         public static void Load()
         {
@@ -28,11 +28,22 @@ namespace DeepThought.src.DeepThought.Services
         }
 
         public static void SaveJobsToDisk()
-        {   if (Jobs.Count == 0) return;
+        {
+            if (Jobs.Count == 0) return;
 
             string output = JsonConvert.SerializeObject(Jobs, Formatting.Indented);
             File.WriteAllText(_fileName, output);
         }
 
+        public static string GetResultByJobId(String JobId)
+        {
+            if (JobId == string.Empty)
+                return "Oh well, looks like we do not have that in store.";
+                
+            string json = File.ReadAllText(_fileName);
+            Dictionary<string, Job> AllJobs = JsonConvert.DeserializeObject<Dictionary<string, Job>>(json);
+            Job CurrentJob = AllJobs[JobId];
+            return CurrentJob.Result.ToString();
+        }
     }
 }
