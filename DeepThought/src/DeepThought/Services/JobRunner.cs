@@ -20,6 +20,7 @@ namespace DeepThought.src.DeepThought.Services
             {
                 Job.Progress = p;
                 var spinner = spinnerChars[spinnerIndex++ % 4];
+               // JobStore.UpdateJobsToDisk(Job); => this updates in real time but it cause concurent blah blah on relaunch
                 Console.Write($"\r{spinner} Progress: {p}%  ");
             });
 
@@ -28,11 +29,12 @@ namespace DeepThought.src.DeepThought.Services
                 Job.Status = "Running"; 
                 string Result = await Job.DoJob(cancelToken, progress);
                 Job.Status = "Completed";
+                Job.Progress = 100; 
             }
             catch (Exception ex)
             {
                 Job.Status = "Canceled";
-                return; // what if the ^c is done twice or three times.
+                return; 
             }
 
             finally

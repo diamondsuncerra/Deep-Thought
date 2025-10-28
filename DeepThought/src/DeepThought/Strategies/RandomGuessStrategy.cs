@@ -8,7 +8,7 @@ using DeepThought.src.DeepThought.Domain;
 namespace DeepThought.src.DeepThought.Strategies
 {
     public class RandomGuessStrategy : IAnswerStrategy
-    {   //an a short summary??? todo
+    {  
         private static readonly int[] Answers = { 42 };
 
         public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress)

@@ -13,7 +13,6 @@ namespace DeepThought.src.DeepThought.Strategies
             // If it should be cancellable
             await Task.Delay(200, token);
             token.ThrowIfCancellationRequested();
-
             progress?.Report(100);
             return "42";
         }

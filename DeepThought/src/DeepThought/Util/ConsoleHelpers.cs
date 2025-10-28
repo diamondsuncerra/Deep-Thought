@@ -105,14 +105,19 @@ namespace DeepThought.src.DeepThought.Util
 
         public async static Task RunJob(Job Job)
         {
+            // To avoid Object Disposed Exception using a handler
+
+            
             using var cts = new CancellationTokenSource();
 
-            Console.CancelKeyPress += (sender, e) =>
+            ConsoleCancelEventHandler handler = (sender, e) =>
             {
                 Console.WriteLine("\nCtrl+C detected — cancelling the job...");
                 e.Cancel = true;
-                cts.Cancel();
+                if (!cts.IsCancellationRequested) cts.Cancel();
             };
+
+            Console.CancelKeyPress += handler;
 
             // Launch a background process to listen for 4 and cancel job similar to ^c
             _ = Task.Run(() =>
@@ -128,8 +133,17 @@ namespace DeepThought.src.DeepThought.Util
                     Thread.Sleep(100);
                 }
             });
+            try
+            {
+                await JobRunner.RunJob(Job, cts.Token);
+            }
+            finally
+            {
+                Console.CancelKeyPress -= handler;
+            }
 
-            await JobRunner.RunJob(Job, cts.Token);
+           
+
         }
    
     }
