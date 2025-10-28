@@ -57,13 +57,27 @@ namespace DeepThought.src.DeepThought.Services
             return CurrentJob.Result.ToString();
             //could also get from dict but the file may have leftovers so this is quicker
         }
-        
+
         public static void PrintAllJobs()
         {
-            foreach(var entry in Jobs)
+            foreach (var entry in Jobs)
             {
                 Console.WriteLine(entry.Value.ToString());
             }
+        }
+        
+        public static bool GetFirstUnfinishedJob(out Job? Job)
+        {
+            foreach (var job in Jobs)
+            {
+                if (!job.Value.Status.Equals("Completed"))
+                {
+                    Job = job.Value;
+                    return true;
+                }
+            }
+            Job = null;
+            return false;
         }
     }
 }

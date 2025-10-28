@@ -45,7 +45,6 @@ namespace DeepThought.src.DeepThought.Domain
             Answer = await _strategy.AnswerQuestion(token, progress);
             stopwatch.Stop();
             Result = new JobResult(Answer, "To be Implemented", stopwatch.ElapsedMilliseconds);
-            Console.WriteLine("Do we ever get here? " + Result.ToString());
             return Answer;
         }
 

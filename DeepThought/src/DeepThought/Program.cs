@@ -26,6 +26,7 @@ namespace DeepThought
                         case 3: ConsoleHelpers.DoOption3(); break;
                         case 4: ConsoleHelpers.DoOption4(); break;
                         case 5: ConsoleHelpers.DoOption5(); break;
+                        case 6: await ConsoleHelpers.DoOption6(); break;
                     }
 
                 } else

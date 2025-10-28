@@ -9,7 +9,7 @@
     "Result": {
       "Answer": "42",
       "Summary": "To be Implemented",
-      "DurationMs": 205
+      "DurationMs": 208
     },
     "CreatedUtc": "2025-10-27T16:10:58.4780115Z"
   },
@@ -40,5 +40,19 @@
       "DurationMs": 205
     },
     "CreatedUtc": "2025-10-27T16:18:18.4439623Z"
+  },
+  "d13e8c52-aa25-4659-b14a-d72d7eccd202": {
+    "JobId": "d13e8c52-aa25-4659-b14a-d72d7eccd202",
+    "QuestionText": "How Am I, Ceri?",
+    "AlgorithmKey": "SlowCount",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 31375
+    },
+    "CreatedUtc": "2025-10-28T08:21:44.9177189Z"
   }
 }

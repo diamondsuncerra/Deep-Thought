@@ -15,22 +15,18 @@ namespace DeepThought.src.DeepThought.Services
             var progress = new Progress<int>(p =>
             {
                 Job.Progress = p;
-                Console.WriteLine($"Progress: {p}%"); // this will be later saved to json
+                Console.WriteLine($"Progress: {p}%");
             });
 
             try
             {
-                Job.Status = "Running"; // maybe pending
-                string result = await Job.DoJob(cancelToken, progress); // this will be saved to json
+                Job.Status = "Running"; 
+                string Result = await Job.DoJob(cancelToken, progress);
                 Job.Status = "Completed";
-                Console.WriteLine("Completed, answer is: " + result);
-                Console.WriteLine("Job result is: " + Job.Result.ToString());
-
             }
             catch (Exception ex)
             {
                 Job.Status = "Canceled";
-                Console.WriteLine("Job was CANCELED!");
                 return; // what if the ^c is done twice or three times. also for option 4
             }
 

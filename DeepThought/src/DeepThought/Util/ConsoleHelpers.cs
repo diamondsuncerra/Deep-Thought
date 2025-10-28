@@ -19,13 +19,14 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("(3) View Result by JobId");
             Console.WriteLine("(4) Cancel Running Job");
             Console.WriteLine("(5) Exit");
+            Console.WriteLine("(6) Resume last incomplete job");
         }
 
-        public static bool CheckQuestionText(string UltimateQuestion)
+        public static bool CheckQuestionText(string? QuestionText)
         {
-            return UltimateQuestion != null && UltimateQuestion.Length <= 200;
+            return QuestionText != null && QuestionText.Length <= 200;
         }
-        public static bool CheckAlgorithmKey (string AlgorithmKey)
+        public static bool CheckAlgorithmKey (string? AlgorithmKey)
         {
             return AlgorithmKey != null && (AlgorithmKey.Equals("Trivial") || AlgorithmKey.Equals("SlowCount") ||
             AlgorithmKey.Equals("RandomGuess"));
@@ -37,31 +38,29 @@ namespace DeepThought.src.DeepThought.Util
 
 
         public static async Task DoOption1()
-        {
-
-            // Checking the values are correct might move to separate methods to be SOLID.
+        {   // TODO: Separate in methods for more SOLID aproach
             Console.WriteLine("Please submit your Ultimate Questions for which we definitely have an answer.");
-            string QuestionText = Console.ReadLine();
+            string? QuestionText = Console.ReadLine();
 
             if (!CheckQuestionText(QuestionText))
             {
-                Console.WriteLine("Unfortunately, questions is not suitable. Try shorter.. or maybe something at all.");
+                Console.WriteLine("Unfortunately, question is not suitable. Try shorter.. or maybe something at all.");
                 return;
             }
 
             Console.WriteLine("Which algorithm should Deep Thought use?");
             Console.WriteLine("Trivial | RandomGuess | SlowCount");
-            string AlgorithmKey = Console.ReadLine();
+
+            string? AlgorithmKey = Console.ReadLine();
             if (!CheckAlgorithmKey(AlgorithmKey))
             {
                 Console.WriteLine("Unfortunately, that algorithm is not currently supported by Deep Thought. Try one of the provided options.");
                 return;
             }
 
-            Guid JobId = Guid.NewGuid(); // needed Guid not id be more careful
+            Guid JobId = Guid.NewGuid(); 
             Console.WriteLine("Job queued: " + JobId);
 
-            // now do the job
             Job Job = new(JobId.ToString(), QuestionText, AlgorithmKey,"Pending", 0);
             JobStore.UpdateJobsToDisk(Job); // job created 
 
@@ -96,10 +95,32 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("You've already found the answer, haven't you?");
             Console.WriteLine("Forever deleting the Ultimate Job..");
         }
-         public static void DoOption5()
+        public static void DoOption5()
         {
             Console.WriteLine("Thank you for using Deep Thought. 42 ms until termination.");
             Thread.Sleep(42);
+        }
+        public async static Task DoOption6()
+        {
+            // Resume last unfinished job
+            bool HasUnfinishedJob = JobStore.GetFirstUnfinishedJob(out Job? Job);
+            if (Job == null)
+            {
+                Console.WriteLine("There is no unfinished job, unfortunately...");
+            }
+            else
+            {
+            using var cts = new CancellationTokenSource();
+
+            Console.CancelKeyPress += (sender, e) =>
+            {
+                Console.WriteLine("\nCtrl+C detected — cancelling the job...");
+                e.Cancel = true;
+                cts.Cancel();
+            };
+
+            await JobRunner.RunJob(Job, cts.Token);
+            }
         }
     }
 }
