@@ -8,16 +8,20 @@ using DeepThought.src.DeepThought.Domain;
 namespace DeepThought.src.DeepThought.Strategies
 {
     public class RandomGuessStrategy : IAnswerStrategy
-    {  
+    {
         private static readonly int[] Answers = { 42 };
-
+        private TimeSpan _zero;
+        public RandomGuessStrategy(TimeSpan? zero = null) // for testing
+        {
+            this._zero = zero ?? TimeSpan.FromMilliseconds(300);
+        }
         public async Task<string> AnswerQuestion(CancellationToken token, IProgress<int>? progress)
         {
             Console.Write("Hmm.. Let me think..");
             for (int i = 0; i <= 100; i+=20)
             {
                 token.ThrowIfCancellationRequested();
-                await Task.Delay(300, token);
+                await Task.Delay(_zero, token);
                  progress?.Report(i);
                 Console.Write(".");
             }

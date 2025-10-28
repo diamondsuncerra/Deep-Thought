@@ -1,9 +1,9 @@
 ﻿using DeepThought.src.DeepThought.Strategies;
 using Xunit;
 
-public class CalculatorTests
+public class TrivialStrategyTests
 {
-    [Fact] // ← marks a single test
+    [Fact] 
     public async Task TrivialStrategy_Return42_AndReportsProgress()
     {
         var strat = new TrivialStrategy();

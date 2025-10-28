@@ -22,8 +22,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DeepThought.csproj" />  
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="tests\**\*.cs" />
-    <None Include="tests\**\*" />
-  </ItemGroup>
+
 </Project>
