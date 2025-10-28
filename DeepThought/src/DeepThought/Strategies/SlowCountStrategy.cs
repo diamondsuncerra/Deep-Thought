@@ -15,7 +15,6 @@ namespace DeepThought.src.DeepThought.Strategies
                 token.ThrowIfCancellationRequested();
                 await Task.Delay(300, token);
                 progress?.Report(i);
-                Console.WriteLine("Generating Ultimate Answer...");
             }
 
             return "42";

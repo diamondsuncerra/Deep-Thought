@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using DeepThought.src.DeepThought.Domain;
@@ -26,7 +28,7 @@ namespace DeepThought.src.DeepThought.Util
         {
             return QuestionText != null && QuestionText.Length <= 200;
         }
-        public static bool CheckAlgorithmKey (string? AlgorithmKey)
+        public static bool CheckAlgorithmKey(string? AlgorithmKey)
         {
             return AlgorithmKey != null && (AlgorithmKey.Equals("Trivial") || AlgorithmKey.Equals("SlowCount") ||
             AlgorithmKey.Equals("RandomGuess"));
@@ -58,25 +60,15 @@ namespace DeepThought.src.DeepThought.Util
                 return;
             }
 
-            Guid JobId = Guid.NewGuid(); 
+            Guid JobId = Guid.NewGuid();
             Console.WriteLine("Job queued: " + JobId);
 
-            Job Job = new(JobId.ToString(), QuestionText, AlgorithmKey,"Pending", 0);
+            Job Job = new(JobId.ToString(), QuestionText, AlgorithmKey, "Pending", 0);
             JobStore.UpdateJobsToDisk(Job); // job created 
 
-            using var cts = new CancellationTokenSource();
-
-            Console.CancelKeyPress += (sender, e) =>
-            {
-                Console.WriteLine("\nCtrl+C detected — cancelling the job...");
-                e.Cancel = true;
-                cts.Cancel();
-            };
-
-
-            await JobRunner.RunJob(Job, cts.Token);
+            await RunJob(Job);
         }
-        
+
         public static void ListAllJobs()
         {
             JobStore.ListAllJobs();
@@ -86,7 +78,7 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("Please submit the JobId.");
             string? JobIdString = Console.ReadLine();
             if (JobIdString != null)
-            { 
+            {
                 Console.WriteLine(JobStore.GetResultByJobId(JobIdString));
             }
         }
@@ -103,13 +95,16 @@ namespace DeepThought.src.DeepThought.Util
         public async static Task RelaunchLastUnfinishedJob()
         {
             // Resume last unfinished job
-            bool HasUnfinishedJob = JobStore.GetFirstUnfinishedJob(out Job? Job);
+            JobStore.GetFirstUnfinishedJob(out Job? Job);
             if (Job == null)
             {
                 Console.WriteLine("There is no unfinished job, unfortunately...");
             }
-            else
-            {
+            else await RunJob(Job);
+        }
+
+        public async static Task RunJob(Job Job)
+        {
             using var cts = new CancellationTokenSource();
 
             Console.CancelKeyPress += (sender, e) =>
@@ -119,8 +114,25 @@ namespace DeepThought.src.DeepThought.Util
                 cts.Cancel();
             };
 
+            // Launch a background process to listen for 4 and cancel job similar to ^c
+            _ = Task.Run(() =>
+            {
+                while (!cts.IsCancellationRequested)
+                {
+                    if (Console.KeyAvailable)
+                    {
+                        var key = Console.ReadKey(true).Key;
+                        if (key == ConsoleKey.D4 || key == ConsoleKey.NumPad4)
+                            cts.Cancel();
+                    }
+                    Thread.Sleep(100);
+                }
+            });
+
             await JobRunner.RunJob(Job, cts.Token);
-            }
         }
+   
     }
+
+
 }

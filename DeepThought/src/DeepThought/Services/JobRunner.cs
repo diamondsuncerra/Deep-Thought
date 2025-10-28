@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using DeepThought.src.DeepThought.Domain;
@@ -12,10 +13,14 @@ namespace DeepThought.src.DeepThought.Services
         public static async Task RunJob(Job Job, CancellationToken cancelToken)
         {
 
+            char[] spinnerChars = { '|', '/', '-', '\\' };
+            int spinnerIndex = 0;
+
             var progress = new Progress<int>(p =>
             {
                 Job.Progress = p;
-                Console.WriteLine($"Progress: {p}%");
+                var spinner = spinnerChars[spinnerIndex++ % 4];
+                Console.Write($"\r{spinner} Progress: {p}%  ");
             });
 
             try
@@ -27,7 +32,7 @@ namespace DeepThought.src.DeepThought.Services
             catch (Exception ex)
             {
                 Job.Status = "Canceled";
-                return; // what if the ^c is done twice or three times. also for option 4
+                return; // what if the ^c is done twice or three times.
             }
 
             finally

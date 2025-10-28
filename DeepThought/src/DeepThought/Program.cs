@@ -26,7 +26,7 @@ namespace DeepThought
                         case 3: ConsoleHelpers.PrintResultByJobId(); break;
                         case 4: ConsoleHelpers.DoOption4(); break;
                         case 5: await ConsoleHelpers.RelaunchLastUnfinishedJob(); break;
-                        case 6: ConsoleHelpers.ExitApplication(); break;
+                        case 6: { ConsoleHelpers.ExitApplication(); return; }
                     }
 
                 } else

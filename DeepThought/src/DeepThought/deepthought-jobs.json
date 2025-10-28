@@ -54,5 +54,71 @@
       "DurationMs": 31375
     },
     "CreatedUtc": "2025-10-28T08:21:44.9177189Z"
+  },
+  "fb0649ff-3ac1-43e5-bb7f-664c43cd8593": {
+    "JobId": "fb0649ff-3ac1-43e5-bb7f-664c43cd8593",
+    "QuestionText": "Hi",
+    "AlgorithmKey": "SlowCount",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 31187
+    },
+    "CreatedUtc": "2025-10-28T09:08:11.7180621Z"
+  },
+  "6c81d647-0721-4972-8394-ffad5183c056": {
+    "JobId": "6c81d647-0721-4972-8394-ffad5183c056",
+    "QuestionText": "Am i good?",
+    "AlgorithmKey": "SlowCount",
+    "Status": "Canceled",
+    "Progress": 65,
+    "Answer": "",
+    "Result": null,
+    "CreatedUtc": "2025-10-28T09:20:08.6633707Z"
+  },
+  "80255790-c607-4c7a-8c0b-8d376701c189": {
+    "JobId": "80255790-c607-4c7a-8c0b-8d376701c189",
+    "QuestionText": "Hi?",
+    "AlgorithmKey": "SlowCount",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 31156
+    },
+    "CreatedUtc": "2025-10-28T09:21:39.2324428Z"
+  },
+  "ab5fe113-8693-410f-9fc9-1c5db7f6d4a1": {
+    "JobId": "ab5fe113-8693-410f-9fc9-1c5db7f6d4a1",
+    "QuestionText": "How are you?",
+    "AlgorithmKey": "RandomGuess",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 1842
+    },
+    "CreatedUtc": "2025-10-28T09:22:32.1366856Z"
+  },
+  "b6522bf3-6cda-430e-b090-ba52e69758f8": {
+    "JobId": "b6522bf3-6cda-430e-b090-ba52e69758f8",
+    "QuestionText": "HHH",
+    "AlgorithmKey": "RandomGuess",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 1839
+    },
+    "CreatedUtc": "2025-10-28T09:22:48.0904963Z"
   }
 }
