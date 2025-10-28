@@ -21,12 +21,12 @@ namespace DeepThought
                     // do job based on what it is
                     switch (option)
                     {
-                        case 1: await ConsoleHelpers.DoOption1(); break;
-                        case 2: ConsoleHelpers.DoOption2(); break;
-                        case 3: ConsoleHelpers.DoOption3(); break;
+                        case 1: await ConsoleHelpers.SubmitQuestion(); break;
+                        case 2: ConsoleHelpers.ListAllJobs(); break;
+                        case 3: ConsoleHelpers.PrintResultByJobId(); break;
                         case 4: ConsoleHelpers.DoOption4(); break;
-                        case 5: ConsoleHelpers.DoOption5(); break;
-                        case 6: await ConsoleHelpers.DoOption6(); break;
+                        case 5: await ConsoleHelpers.RelaunchLastUnfinishedJob(); break;
+                        case 6: ConsoleHelpers.ExitApplication(); break;
                     }
 
                 } else

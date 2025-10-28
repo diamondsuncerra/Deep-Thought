@@ -58,7 +58,7 @@ namespace DeepThought.src.DeepThought.Services
             //could also get from dict but the file may have leftovers so this is quicker
         }
 
-        public static void PrintAllJobs()
+        public static void ListAllJobs()
         {
             foreach (var entry in Jobs)
             {

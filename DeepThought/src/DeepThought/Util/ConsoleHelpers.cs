@@ -18,8 +18,8 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("(2) List Jobs");
             Console.WriteLine("(3) View Result by JobId");
             Console.WriteLine("(4) Cancel Running Job");
-            Console.WriteLine("(5) Exit");
-            Console.WriteLine("(6) Resume last incomplete job");
+            Console.WriteLine("(5) Relaunch Last Incomplete Job");
+            Console.WriteLine("(6) Exit");
         }
 
         public static bool CheckQuestionText(string? QuestionText)
@@ -37,7 +37,7 @@ namespace DeepThought.src.DeepThought.Util
         }
 
 
-        public static async Task DoOption1()
+        public static async Task SubmitQuestion()
         {   // TODO: Separate in methods for more SOLID aproach
             Console.WriteLine("Please submit your Ultimate Questions for which we definitely have an answer.");
             string? QuestionText = Console.ReadLine();
@@ -77,11 +77,11 @@ namespace DeepThought.src.DeepThought.Util
             await JobRunner.RunJob(Job, cts.Token);
         }
         
-        public static void DoOption2()
+        public static void ListAllJobs()
         {
-            JobStore.PrintAllJobs();
+            JobStore.ListAllJobs();
         }
-        public static void DoOption3()
+        public static void PrintResultByJobId()
         {
             Console.WriteLine("Please submit the JobId.");
             string? JobIdString = Console.ReadLine();
@@ -95,12 +95,12 @@ namespace DeepThought.src.DeepThought.Util
             Console.WriteLine("You've already found the answer, haven't you?");
             Console.WriteLine("Forever deleting the Ultimate Job..");
         }
-        public static void DoOption5()
+        public static void ExitApplication()
         {
             Console.WriteLine("Thank you for using Deep Thought. 42 ms until termination.");
             Thread.Sleep(42);
         }
-        public async static Task DoOption6()
+        public async static Task RelaunchLastUnfinishedJob()
         {
             // Resume last unfinished job
             bool HasUnfinishedJob = JobStore.GetFirstUnfinishedJob(out Job? Job);
