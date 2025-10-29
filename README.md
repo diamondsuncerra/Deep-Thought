@@ -1,9 +1,9 @@
-#DeepThought
-##Overview
+# DeepThought
+## Overview
 
 DeepThought is a console-based application that simulates a job processing system. It allows users to submit questions, process them using different algorithms, and store the results locally. The system supports asynchronous execution, job persistence, and progress tracking.
 
-##Features
+## Features
 
 Submit questions with selectable algorithms
 
@@ -17,7 +17,7 @@ Persistent job storage using JSON
 
 Unit tests for strategy and job handling logic
 
-##Project Structure
+## Project Structure
 DeepThought/
 ├─ src/
 │  └─ DeepThought/
@@ -35,13 +35,13 @@ DeepThought/
       ├─ RandomGuessStrategyTests.cs
       └─ DeepThought.Tests.csproj
 
-##Requirements
+## Requirements
 
 .NET 8.0 SDK or later
 
 Windows, macOS, or Linux
 
-##How to Build and Run
+## How to Build and Run
 
 From the project root:
 
@@ -52,7 +52,7 @@ dotnet run --project src/DeepThought/DeepThought.csproj
 Running Tests
 dotnet test tests/DeepThought.Tests/DeepThought.Tests.csproj
 
-##Example Usage
+## Example Usage
 
 Start the application:
 
