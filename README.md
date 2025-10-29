@@ -18,6 +18,7 @@ Persistent job storage using JSON
 Unit tests for strategy and job handling logic
 
 ## Project Structure
+```bash
 DeepThought/
 ├─ src/
 │  └─ DeepThought/
@@ -34,7 +35,7 @@ DeepThought/
       ├─ SlowCountStrategyTests.cs
       ├─ RandomGuessStrategyTests.cs
       └─ DeepThought.Tests.csproj
-
+```
 ## Requirements
 
 .NET 8.0 SDK or later
@@ -44,20 +45,21 @@ Windows, macOS, or Linux
 ## How to Build and Run
 
 From the project root:
-
+```bash
 dotnet clean
 dotnet build src/DeepThought/DeepThought.csproj
 dotnet run --project src/DeepThought/DeepThought.csproj
-
+```
 Running Tests
+```bash
 dotnet test tests/DeepThought.Tests/DeepThought.Tests.csproj
-
+```
 ## Example Usage
 
 Start the application:
-
+```bash
 dotnet run --project src/DeepThought/DeepThought.csproj
-
+```
 
 Choose an option from the menu:
 
