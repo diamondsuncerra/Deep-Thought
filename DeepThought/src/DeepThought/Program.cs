@@ -1,5 +1,6 @@
 ﻿using DeepThought.src.DeepThought.Services;
 using DeepThought.src.DeepThought.Util;
+using Microsoft.VisualBasic;
 
 namespace DeepThought
 { 
@@ -20,21 +21,20 @@ namespace DeepThought
             }
             
             int option = 0;
-            while (option != 6)
+            while (option != AppConstants.Menu.Exit)
             {
                 ConsoleHelpers.MenuPrompt();
-                string? UserInput = Console.ReadLine();
-                if (int.TryParse(UserInput, out option))
+                string? userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out option))
                 {   
                     // do job based on what it is
                     switch (option)
                     {
-                        case 1: await ConsoleHelpers.SubmitQuestion(); break;
-                        case 2: ConsoleHelpers.ListAllJobs(); break;
-                        case 3: ConsoleHelpers.PrintResultByJobId(); break;
-                        case 4: ConsoleHelpers.DoOption4(); break;
-                        case 5: await ConsoleHelpers.RelaunchLastUnfinishedJob(); break;
-                        case 6: { ConsoleHelpers.ExitApplication(); return; }
+                        case AppConstants.Menu.SubmitQuestion: await ConsoleHelpers.SubmitQuestion(); break;
+                        case AppConstants.Menu.ListJobs: ConsoleHelpers.ListAllJobs(); break;
+                        case AppConstants.Menu.ViewResultByJobId: ConsoleHelpers.PrintResultByJobId(); break;
+                        case AppConstants.Menu.RelaunchLastIncompleteJob: await ConsoleHelpers.RelaunchLastUnfinishedJob(); break;
+                        case AppConstants.Menu.Exit: { ConsoleHelpers.ExitApplication(); return; }
                         default: ConsoleHelpers.InvalidOption(); break;
                     }
 

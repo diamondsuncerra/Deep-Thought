@@ -1,71 +1,90 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Principal;
-using System.Threading.Tasks;
 using DeepThought.src.DeepThought.Domain;
 using DeepThought.src.DeepThought.Services;
 
 namespace DeepThought.src.DeepThought.Util
 {
-    public class ConsoleHelpers
+    public static class ConsoleHelpers
     {
+        private const int MaxQuestionLength = 200;
         public static void MenuPrompt()
         {
             Console.WriteLine("Please select an option:");
-            Console.WriteLine("(1) Submit Question");
-            Console.WriteLine("(2) List Jobs");
-            Console.WriteLine("(3) View Result by JobId");
-            Console.WriteLine("(4) Cancel Running Job");
-            Console.WriteLine("(5) Relaunch Last Incomplete Job");
-            Console.WriteLine("(6) Exit");
+            Console.WriteLine($"({AppConstants.Menu.SubmitQuestion}) Submit Question");
+            Console.WriteLine($"({AppConstants.Menu.ListJobs}) List Jobs");
+            Console.WriteLine($"({AppConstants.Menu.ViewResultByJobId}) View Result by JobId");
+            Console.WriteLine($"({AppConstants.Menu.RelaunchLastIncompleteJob}) Relaunch Last Incomplete Job");
+            Console.WriteLine($"({AppConstants.Menu.Exit}) Exit");
         }
 
-        public static bool CheckQuestionText(string? QuestionText)
+        public static bool CheckQuestionText(string? questionText)
         {
-            return QuestionText != null && QuestionText.Length <= 200;
+            //return questionText != null && questionText.Length <= MaxQuestionLength; 
+            if (string.IsNullOrWhiteSpace(questionText)) return false;
+            // IsNullOrWhiteSpace for null, empty, spaceonly
+            return questionText.Length <= MaxQuestionLength;
         }
-        public static bool CheckAlgorithmKey(string? AlgorithmKey)
+        public static bool CheckAlgorithmKey(string? algorithmKey)
         {
-            return AlgorithmKey != null && (AlgorithmKey.Equals("Trivial") || AlgorithmKey.Equals("SlowCount") ||
-            AlgorithmKey.Equals("RandomGuess"));
+            if (string.IsNullOrWhiteSpace(algorithmKey)) return false;
+           
+            var key = algorithmKey.Trim();
+
+            // Compare against AppConstants, case-insensitively
+            return key.Equals(AppConstants.Algorithms.Trivial, StringComparison.OrdinalIgnoreCase)
+                || key.Equals(AppConstants.Algorithms.SlowCount, StringComparison.OrdinalIgnoreCase)
+                || key.Equals(AppConstants.Algorithms.RandomGuess, StringComparison.OrdinalIgnoreCase);
         }
         public static void InvalidOption()
         {
-            ShowWarning("This option is not valid.");
+            ShowWarning(AppConstants.Messages.InvalidOption);
         }
 
 
+        private static string? ReadQuestion()
+        {
+            Console.WriteLine(AppConstants.Messages.EnterQuestion);
+            string? questionText = Console.ReadLine();
+
+            if (!CheckQuestionText(questionText))
+            {
+                ShowWarning(AppConstants.Warnings.InvalidQuestion);
+                return null;
+            }
+            return questionText;
+        }
+        
+        private static string? ReadAlgorithm()
+        {
+            Console.WriteLine(AppConstants.Messages.EnterAlgorithm);
+            string? algorithmKey = Console.ReadLine();
+            if (!CheckAlgorithmKey(algorithmKey))
+            {
+                ShowWarning(AppConstants.Warnings.InvalidAlgorithm);
+                return null;
+            }
+            return algorithmKey;
+        }
         public static async Task SubmitQuestion()
-        {   // TODO: Separate in methods for more SOLID aproach
-            Console.WriteLine("Please submit your Ultimate Questions for which we definitely have an answer.");
-            string? QuestionText = Console.ReadLine();
+        {   
+            string? questionText = ReadQuestion();
+            string? algorithmKey = ReadAlgorithm();
 
-            if (!CheckQuestionText(QuestionText))
+            Guid jobId = Guid.NewGuid();
+            Console.WriteLine("Job queued: " + jobId);
+
+            Job job = new(jobId.ToString(), questionText, algorithmKey, AppConstants.Status.Pending, 0);
+            try
             {
-                Console.WriteLine("Unfortunately, question is not suitable. Try shorter.. or maybe something at all.");
+                JobStore.UpdateJobsToDisk(job);
+            }
+            catch (Exception ex)
+            {
+                ShowWarning(AppConstants.Warnings.JobSavedFailed);
+                Log(ex);
                 return;
             }
 
-            Console.WriteLine("Which algorithm should Deep Thought use?");
-            Console.WriteLine("Trivial | RandomGuess | SlowCount");
-
-            string? AlgorithmKey = Console.ReadLine();
-            if (!CheckAlgorithmKey(AlgorithmKey))
-            {
-                Console.WriteLine("Unfortunately, that algorithm is not currently supported by Deep Thought. Try one of the provided options.");
-                return;
-            }
-
-            Guid JobId = Guid.NewGuid();
-            Console.WriteLine("Job queued: " + JobId);
-
-            Job Job = new(JobId.ToString(), QuestionText, AlgorithmKey, "Pending", 0);
-            JobStore.UpdateJobsToDisk(Job); // job created 
-
-            await RunJob(Job);
+            await RunJob(job);
         }
 
         public static void ListAllJobs()
@@ -74,20 +93,17 @@ namespace DeepThought.src.DeepThought.Util
         }
         public static void PrintResultByJobId()
         {
-            Console.WriteLine("Please submit the JobId.");
-            string? JobIdString = Console.ReadLine();
-            if (JobIdString != null)
+            Console.WriteLine(AppConstants.Messages.EnterJobId);
+            string? jobIdString = Console.ReadLine();
+            if (jobIdString != null)
             {
-                Console.WriteLine(JobStore.GetResultByJobId(JobIdString));
+                Console.WriteLine(JobStore.GetResultByJobId(jobIdString));
             }
         }
-        public static void DoOption4()
-        {
-            Console.Write("No current job running. Submit a question or relaunch unfinished one.");
-        }
+
         public static void ExitApplication()
         {
-            Console.WriteLine("Thank you for using Deep Thought. 42 ms until termination.");
+            Console.WriteLine(AppConstants.Messages.Goodbye);
             Thread.Sleep(42);
         }
         public async static Task RelaunchLastUnfinishedJob()
@@ -96,7 +112,7 @@ namespace DeepThought.src.DeepThought.Util
             JobStore.GetFirstUnfinishedJob(out Job? Job);
             if (Job == null)
             {
-                Console.WriteLine("There is no unfinished job, unfortunately...");
+                Console.WriteLine(AppConstants.Messages.NoUnfinishedJob);
             }
             else await RunJob(Job);
         }
@@ -108,7 +124,7 @@ namespace DeepThought.src.DeepThought.Util
 
             ConsoleCancelEventHandler handler = (sender, e) =>
             {
-                Console.WriteLine("\nCtrl+C detected — cancelling the job...");
+                Console.WriteLine(AppConstants.Messages.ControlCDetected);
                 e.Cancel = true;
                 if (!cts.IsCancellationRequested) cts.Cancel();
             };
@@ -141,14 +157,17 @@ namespace DeepThought.src.DeepThought.Util
 
         internal static void ShowWarning(string v)
         {
-            WarningException exception = new WarningException(v);
-            Console.Write(exception.ToString());
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"[Warning] {v}");
+            Console.ResetColor();
         }
 
         internal static void Log(Exception ex)
         {
-            // logger
-            throw new NotImplementedException();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Error.WriteLine($"[Error] {ex.GetType().Name}: {ex.Message}");
+            if (ex.StackTrace is not null) Console.Error.WriteLine(ex.StackTrace);
+            Console.ResetColor();
         }
     }
 
