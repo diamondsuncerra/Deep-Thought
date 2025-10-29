@@ -73,10 +73,14 @@
     "JobId": "6c81d647-0721-4972-8394-ffad5183c056",
     "QuestionText": "Am i good?",
     "AlgorithmKey": "SlowCount",
-    "Status": "Running",
+    "Status": "Completed",
     "Progress": 100,
-    "Answer": "",
-    "Result": null,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 31546
+    },
     "CreatedUtc": "2025-10-28T09:20:08.6633707Z"
   },
   "80255790-c607-4c7a-8c0b-8d376701c189": {
@@ -126,7 +130,7 @@
     "QuestionText": "How are you today, Deep Thought?",
     "AlgorithmKey": "SlowCount",
     "Status": "Canceled",
-    "Progress": 23,
+    "Progress": 33,
     "Answer": "",
     "Result": null,
     "CreatedUtc": "2025-10-28T09:25:37.5272532Z"
@@ -210,5 +214,57 @@
     "Answer": "",
     "Result": null,
     "CreatedUtc": "2025-10-28T09:48:54.9512354Z"
+  },
+  "18967fa2-da16-4d32-8c3d-3186394bed17": {
+    "JobId": "18967fa2-da16-4d32-8c3d-3186394bed17",
+    "QuestionText": "Is Simona the best programmer ever?",
+    "AlgorithmKey": "Trivial",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 215
+    },
+    "CreatedUtc": "2025-10-29T12:39:38.5460023Z"
+  },
+  "261e43b3-ce3c-4359-a32a-dcacf77bdb44": {
+    "JobId": "261e43b3-ce3c-4359-a32a-dcacf77bdb44",
+    "QuestionText": "how are you",
+    "AlgorithmKey": "RANDOMGUESS",
+    "Status": "Canceled",
+    "Progress": 0,
+    "Answer": "",
+    "Result": null,
+    "CreatedUtc": "2025-10-29T12:48:35.67133Z"
+  },
+  "9eaa9617-b1bd-4118-ab72-6b4330049f4f": {
+    "JobId": "9eaa9617-b1bd-4118-ab72-6b4330049f4f",
+    "QuestionText": "Idk?",
+    "AlgorithmKey": "Trivial",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 209
+    },
+    "CreatedUtc": "2025-10-29T13:37:01.947438Z"
+  },
+  "c00650ca-1135-4336-9228-b92ca5a91ec2": {
+    "JobId": "c00650ca-1135-4336-9228-b92ca5a91ec2",
+    "QuestionText": "IDK?",
+    "AlgorithmKey": "RandomGuess",
+    "Status": "Completed",
+    "Progress": 100,
+    "Answer": "42",
+    "Result": {
+      "Answer": "42",
+      "Summary": "To be Implemented",
+      "DurationMs": 1842
+    },
+    "CreatedUtc": "2025-10-29T13:37:12.0644682Z"
   }
 }

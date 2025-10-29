@@ -40,7 +40,12 @@ namespace DeepThought.src.DeepThought.Util
             public const string InvalidQuestion = "This question is too long or empty. Please retry.";
             public const string InvalidAlgorithm = "Unfortunately, that algorithm is not currently supported by Deep Thought. Try one of the provided options.";
             public const string JobSavedFailed = "Failed to save job.";
+            public const string InvalidJobId = "The JobId you provided is invalid. Try again.";
+            public const string GeneralFail = "Something went wrong!";
+
         }
+        
+        
         public static class Messages
         {
             public const string InvalidOption = "This option is not valid.";

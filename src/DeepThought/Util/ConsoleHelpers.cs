@@ -52,7 +52,7 @@ namespace DeepThought.src.DeepThought.Util
             }
             return questionText;
         }
-        
+
         private static string? ReadAlgorithm()
         {
             Console.WriteLine(AppConstants.Messages.EnterAlgorithm);
@@ -62,13 +62,43 @@ namespace DeepThought.src.DeepThought.Util
                 ShowWarning(AppConstants.Warnings.InvalidAlgorithm);
                 return null;
             }
-            return algorithmKey;
+            return TidyAlgorithmKey(algorithmKey);
+        }
+
+        private static string? TidyAlgorithmKey(string? key)
+        {
+            if (key == null) return null;
+
+            string tidyKey = key.ToLower();
+            if (tidyKey.Equals("randomguess"))
+            {
+                return "RandomGuess";
+            }
+            if (tidyKey.Equals("slowcount"))
+            {
+                return "SlowCount";
+            }
+            if (tidyKey.Equals("trivial"))
+            {
+                return "Trivial";
+            }
+            return null;
         }
         public static async Task SubmitQuestion()
-        {   
+        {
             string? questionText = ReadQuestion();
+            if(questionText == null)
+            {
+                Log(new Exception(AppConstants.Warnings.InvalidQuestion));
+                return;   
+            }
             string? algorithmKey = ReadAlgorithm();
 
+            if(algorithmKey == null)
+            {
+                Log(new Exception(AppConstants.Warnings.InvalidAlgorithm));
+                return;   
+            }
             Guid jobId = Guid.NewGuid();
             Console.WriteLine("Job queued: " + jobId);
 
@@ -95,9 +125,14 @@ namespace DeepThought.src.DeepThought.Util
         {
             Console.WriteLine(AppConstants.Messages.EnterJobId);
             string? jobIdString = Console.ReadLine();
+
             if (jobIdString != null)
             {
-                Console.WriteLine(JobStore.GetResultByJobId(jobIdString));
+                string? result = JobStore.GetResultByJobId(jobIdString);
+                if(result != null)
+                {
+                    Console.WriteLine(result);
+                }
             }
         }
 

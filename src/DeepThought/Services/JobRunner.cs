@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using DeepThought.src.DeepThought.Domain;
 using DeepThought.src.DeepThought.Strategies;
+using DeepThought.src.DeepThought.Util;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace DeepThought.src.DeepThought.Services
 {
@@ -22,8 +24,6 @@ namespace DeepThought.src.DeepThought.Services
                 var spinner = spinnerChars[spinnerIndex++ % 4];
                 // JobStore.UpdateJobsToDisk(Job); => this updates in real time but it cause concurent blah blah on relaunch
                 Console.Write($"\r{spinner} Progress: {p}%  ");
-
-                Console.Write("\nPress ^C or 4 to cancel current job.");
             });
 
             try
@@ -36,6 +36,8 @@ namespace DeepThought.src.DeepThought.Services
             catch (Exception ex)
             {
                 Job.Status = "Canceled";
+                ConsoleHelpers.ShowWarning("Job was canceled.");
+                ConsoleHelpers.Log(ex);
                 return; 
             }
 

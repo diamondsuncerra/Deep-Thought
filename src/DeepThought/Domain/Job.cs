@@ -5,30 +5,36 @@ using System.Formats.Asn1;
 using System.Linq;
 using System.Threading.Tasks;
 using DeepThought.src.DeepThought.Strategies;
+using DeepThought.src.DeepThought.Util;
 
 namespace DeepThought.src.DeepThought.Domain
 {
     public class Job
     {
         public string JobId { get; set; }
-        public string QuestionText { get; set; }
-        public string AlgorithmKey { get; set; }
+        public string? QuestionText { get; set; }
+        public string? AlgorithmKey { get; set; }
         public string Status { get; set; }
         public int Progress { get; set; }
-        private IAnswerStrategy _strategy;
+        private IAnswerStrategy? _strategy;
         public string Answer { get; set; } = string.Empty;
 
-        public JobResult Result {get; set;}
+        public JobResult? Result {get; set;}
 
         public DateTime? CreatedUtc { get; set; }
-        public Job(string JobId, string QuestionText, string AlgorithmKey, string Status, int Progress)
+        public Job(string JobId, string? QuestionText, string? AlgorithmKey, string Status, int Progress)
         {
             this.JobId = JobId;
             this.QuestionText = QuestionText;
             this.AlgorithmKey = AlgorithmKey;
             this.Status = Status;
-            this.Progress = Progress; 
+            this.Progress = Progress;
             CreatedUtc = DateTime.UtcNow;
+            if (AlgorithmKey == null)
+            {
+                ConsoleHelpers.ShowWarning(AppConstants.Warnings.GeneralFail);
+                return;
+            }
             if (AlgorithmKey.Equals("Trivial"))
                 _strategy = new TrivialStrategy();
             if (AlgorithmKey.Equals("SlowCount"))
@@ -40,8 +46,14 @@ namespace DeepThought.src.DeepThought.Domain
 
         public async Task<string> DoJob(CancellationToken token, IProgress<int>? progress)
         {
+            if (_strategy == null)
+            {
+                ConsoleHelpers.ShowWarning(AppConstants.Warnings.GeneralFail);
+                return "ERROR";
+            }
             Stopwatch stopwatch = new Stopwatch(); // for duration
             stopwatch.Start();
+
             Answer = await _strategy.AnswerQuestion(token, progress);
             stopwatch.Stop();
             Result = new JobResult(Answer, "To be Implemented", stopwatch.ElapsedMilliseconds);

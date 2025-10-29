@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using DeepThought.src.DeepThought.Domain;
+using DeepThought.src.DeepThought.Util;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Newtonsoft.Json;
 namespace DeepThought.src.DeepThought.Services
 {
     public class JobStore
     {
         // do something about this
-        private static string _fileName = "C:\\Endava\\EndevLocal\\Deep Thought\\DeepThought\\src\\DeepThought\\deepthought-jobs.json";
+        private static string _fileName = "C:\\Endava\\EndevLocal\\Deep Thought\\src\\DeepThought\\deepthought-jobs.json";
         // The problem was that List was just putting them all in order
         public static Dictionary<string, Job> Jobs { get; private set; } = new(StringComparer.OrdinalIgnoreCase);
 
@@ -43,18 +45,33 @@ namespace DeepThought.src.DeepThought.Services
             File.WriteAllText(_fileName, output);
         }
 
-        public static string GetResultByJobId(String JobId)
+        public static string? GetResultByJobId(String JobId)
         {
             if (JobId == string.Empty)
                 return "Oh well, looks like we do not have that in store.";
 
             string json = File.ReadAllText(_fileName);
             Dictionary<string, Job>? AllJobs = JsonConvert.DeserializeObject<Dictionary<string, Job>>(json);
-            if(AllJobs == null)
-            {return "Oh well, looks like we do not have that in store.";
+            if (AllJobs == null)
+            {
+                return "Oh well, looks like we do not have that in store.";
             }
-            Job CurrentJob = AllJobs[JobId];
-            return CurrentJob.Result.ToString();
+            try
+            {
+                Job CurrentJob = AllJobs[JobId];
+                if (CurrentJob.Result == null)
+                    {
+                        ConsoleHelpers.ShowWarning(AppConstants.Warnings.GeneralFail);
+                        return "ERROR";
+                    }
+                return CurrentJob.Result.ToString();
+            } catch( Exception ex)
+            {
+                
+                ConsoleHelpers.ShowWarning(AppConstants.Warnings.InvalidJobId);
+                ConsoleHelpers.Log(ex);
+            }
+            return null;
             //could also get from dict but the file may have leftovers so this is quicker
         }
 
