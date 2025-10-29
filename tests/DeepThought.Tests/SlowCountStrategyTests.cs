@@ -1,6 +1,5 @@
-using DeepThought.src.DeepThought.Strategies;
 using Xunit;
-
+using DeepThought.src.DeepThought.Strategies;
 public class SlowCountStrategyTests
 {
     [Fact]
@@ -24,9 +23,9 @@ public class SlowCountStrategyTests
         var progress = new Progress<int>(i => reports.Add(i));
         using var cts = new CancellationTokenSource();
         var work = strat.AnswerQuestion(cts.Token, progress);
-        cts.CancelAfter(120); // cancel before it reaches 100
+        cts.CancelAfter(120); 
    
-        await Assert.ThrowsAsync<OperationCanceledException>(() => work);
+        await Assert.ThrowsAsync<TaskCanceledException>(() => work);
 
         Assert.DoesNotContain(100, reports);
 

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepThought.csproj" />  
+    <ProjectReference Include="..\..\src\DeepThought\DeepThought.csproj" />  
   </ItemGroup>
 
 </Project>
