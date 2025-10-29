@@ -12,7 +12,7 @@ namespace DeepThought.src.DeepThought.Services
     {
         // do something about this
         private static string _fileName = "C:\\Endava\\EndevLocal\\Deep Thought\\DeepThought\\src\\DeepThought\\deepthought-jobs.json";
-        // The problem was that List was just puttin them all in order
+        // The problem was that List was just putting them all in order
         public static Dictionary<string, Job> Jobs { get; private set; } = new(StringComparer.OrdinalIgnoreCase);
 
         public static void Load()

@@ -12,7 +12,6 @@ namespace DeepThought.src.DeepThought.Util
 {
     public class ConsoleHelpers
     {
-        private static int _jobs = 0;
         public static void MenuPrompt()
         {
             Console.WriteLine("Please select an option:");
@@ -35,7 +34,7 @@ namespace DeepThought.src.DeepThought.Util
         }
         public static void InvalidOption()
         {
-            Console.WriteLine("The value is not valid. Please try again.");
+            ShowWarning("This option is not valid.");
         }
 
 
@@ -84,8 +83,7 @@ namespace DeepThought.src.DeepThought.Util
         }
         public static void DoOption4()
         {
-            Console.WriteLine("You've already found the answer, haven't you?");
-            Console.WriteLine("Forever deleting the Ultimate Job..");
+            Console.Write("No current job running. Submit a question or relaunch unfinished one.");
         }
         public static void ExitApplication()
         {
@@ -105,9 +103,7 @@ namespace DeepThought.src.DeepThought.Util
 
         public async static Task RunJob(Job Job)
         {
-            // To avoid Object Disposed Exception using a handler
-
-            
+            // To avoid Object Disposed Exception using a handler            
             using var cts = new CancellationTokenSource();
 
             ConsoleCancelEventHandler handler = (sender, e) =>
@@ -141,11 +137,19 @@ namespace DeepThought.src.DeepThought.Util
             {
                 Console.CancelKeyPress -= handler;
             }
-
-           
-
         }
-   
+
+        internal static void ShowWarning(string v)
+        {
+            WarningException exception = new WarningException(v);
+            Console.Write(exception.ToString());
+        }
+
+        internal static void Log(Exception ex)
+        {
+            // logger
+            throw new NotImplementedException();
+        }
     }
 
 

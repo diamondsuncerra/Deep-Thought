@@ -10,9 +10,17 @@ namespace DeepThought
         // it should load existing jobs from deepthought-jobs.json
         public static async Task Main(string []args)
         {
-            JobStore.Load();
+            try
+            {
+                JobStore.Load();
+            } catch (Exception ex)
+            {
+                ConsoleHelpers.ShowWarning("Failed to load saved jobs.");
+                ConsoleHelpers.Log(ex);
+            }
+            
             int option = 0;
-            while (option != 5)
+            while (option != 6)
             {
                 ConsoleHelpers.MenuPrompt();
                 string? UserInput = Console.ReadLine();
@@ -27,6 +35,7 @@ namespace DeepThought
                         case 4: ConsoleHelpers.DoOption4(); break;
                         case 5: await ConsoleHelpers.RelaunchLastUnfinishedJob(); break;
                         case 6: { ConsoleHelpers.ExitApplication(); return; }
+                        default: ConsoleHelpers.InvalidOption(); break;
                     }
 
                 } else

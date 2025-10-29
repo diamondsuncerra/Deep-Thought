@@ -20,8 +20,10 @@ namespace DeepThought.src.DeepThought.Services
             {
                 Job.Progress = p;
                 var spinner = spinnerChars[spinnerIndex++ % 4];
-               // JobStore.UpdateJobsToDisk(Job); => this updates in real time but it cause concurent blah blah on relaunch
+                // JobStore.UpdateJobsToDisk(Job); => this updates in real time but it cause concurent blah blah on relaunch
                 Console.Write($"\r{spinner} Progress: {p}%  ");
+
+                Console.Write("\nPress ^C or 4 to cancel current job.");
             });
 
             try
